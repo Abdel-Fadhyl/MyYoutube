@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  api:
+    image: node:latest
+    volumes:
+      - "./backend:/var/www"
+    ports:
+      - "8080:8080"
+    command: bash -c "cd /var/www && npm start"
+    environment:
+      - EMAIL_USERNAME="myassistance04@gmail.com"
+      - EMAIL_PASSWORD="hagdpiveofsyzjuf"
+      - SECRET_KEY="AZERTYUIOP123456"
+    networks:
+      - front
+      - back
+    depends_on:
+      - maildev
+      - elasticsearch
+
+  front:
+    image: node:10.16.3
+    command: npm run dev
+    volumes:
+      - ./front:/usr/src/app
+    working_dir: /usr/src/app
+    ports:
+      - "8082:3000"
+    environment:
+      - HOST=0.0.0.0
+      - NODE_ENV=dev
+    networks:
+      - front
+    depends_on:
+      - api
+
+  maildev:
+    hostname: maildev
+    image: maildev/maildev
+    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+    restart: always
+    ports:
+      - "1080:80"
+      - "25:25"
+    networks:
+      - back
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.1.1
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ports:
+      - "9300:9300"
+      - "9200:9200"
+    networks:
+      - front
+
+networks:
+  front:
+  back:

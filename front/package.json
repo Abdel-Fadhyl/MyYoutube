@@ -1,0 +1,23 @@
+{
+  "name": "front",
+  "version": "1.0.0",
+  "description": "My ultimate Nuxt.js project",
+  "author": "Samuel Besnier",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@mui/icons-material": "^5.10.6",
+    "@mui/material": "^5.10.5",
+    "@nuxtjs/axios": "^5.3.6",
+    "node": "^16.0.0",
+    "nuxt": "^2.0.0",
+    "nuxt-material-design-icons-iconfont": "^1.0.2",
+    "nuxt-vue-material": "^1.2.0",
+    "universal-cookie": "^4.0.3"
+  }
+}
